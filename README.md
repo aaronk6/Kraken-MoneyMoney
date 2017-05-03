@@ -4,9 +4,14 @@ Fetches balances from Kraken API and returns them as securities
 
 ## Extension Setup
 
-Copy `Kraken.lua` to your MoneyMoney Extensions folder (see [MoneyMoney Extensions](https://moneymoney-app.com/extensions/) for details).
+You can get a signed version of this extension from
 
-**Note:** This extension requires MoneyMoney Version **2.2.17 (284) or newer**. Also, this extension is currently unsigned and therefore requires you to use a beta version of MoneyMoney with signature check disabled.
+* my [GitHub releases](https://github.com/aaronk6/Kraken-MoneyMoney/releases/latest) page, or
+* the [MoneyMoney Extensions](https://moneymoney-app.com/extensions/) page
+
+Once downloaded, move `Kraken.lua` to your MoneyMoney Extensions folder.
+
+**Note:** This extension requires MoneyMoney Version 2.2.17 (284) or newer.
 
 ## Account Setup
 
@@ -24,7 +29,7 @@ Add a new account (type “Kraken Account”) and use your Kraken API key as use
 
 ## Screenshots
 
-![](screenshots/balances.png)
+![MoneyMoney screenshot with Kraken balances](screenshots/balances.png)
 
 ## Known Issues and Limitations
 
