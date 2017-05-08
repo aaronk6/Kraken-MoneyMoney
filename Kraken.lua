@@ -67,7 +67,7 @@ local currencyNames = {
 }
 
 function SupportsBank (protocol, bankCode)
-  return true
+  return protocol == ProtocolWebBanking and bankCode == "Kraken Account"
 end
 
 function InitializeSession (protocol, bankCode, username, username2, password, username3)
