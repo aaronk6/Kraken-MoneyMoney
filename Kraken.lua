@@ -25,7 +25,7 @@
 -- SOFTWARE.
 
 WebBanking{
-  version = 1.00,
+  version = 1.01,
   url = "https://api.kraken.com",
   description = "Fetch balances from Kraken API and list them as securities",
   services= { "Kraken Account" },
