@@ -99,13 +99,13 @@ function RefreshAccount (account, since)
   for key, value in pairs(balances) do
     pair = key .. currencyName
     name = currencyNames[key] ~= nil and currencyNames[key] or key
-    if prices[pair] ~= nil then
+    if prices[pair] ~= nil or key == currencyName then
       s[#s+1] = {
         name = name,
         market = market,
         currency = nil,
         quantity = value,
-        price = prices[pair]["b"][1]
+        price = prices[pair] ~= nil and prices[pair]["b"][1] or 1
       }
     end
   end
