@@ -25,7 +25,7 @@
 -- SOFTWARE.
 
 WebBanking{
-  version = 1.01,
+  version = 1.02,
   url = "https://api.kraken.com",
   description = "Fetch balances from Kraken API and list them as securities",
   services= { "Kraken Account" },
@@ -44,6 +44,7 @@ local balances
 -- These cannot be retrieved via the API, therefore hardcoding them (could use
 -- web scraping instead) Source: https://www.kraken.com/help/fees
 local currencyNames = {
+  BCH = "Bitcoin Cash",
   DASH = "Dash",
   GNO = "Gnosis",
   USDT = "Tether USD",
@@ -97,7 +98,7 @@ function RefreshAccount (account, since)
   local s = {}
 
   for key, value in pairs(balances) do
-    pair = key .. currencyName
+    pair = getPairName(key)
     name = currencyNames[key] ~= nil and currencyNames[key] or key
     if prices[pair] ~= nil or key == currencyName then
       s[#s+1] = {
@@ -176,4 +177,11 @@ function buildPairs(balances, assetPairs)
     end
   end
   return str.sub(str, 1, -2)
+end
+
+function getPairName(base)
+  local opt1 = base .. currency
+  local opt2 = base .. currencyName
+
+  return assetPairs[opt1] ~= nil and opt1 or opt2
 end
