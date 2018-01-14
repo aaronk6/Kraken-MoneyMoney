@@ -34,4 +34,3 @@ Add a new account (type “Kraken Account”) and use your Kraken API key as use
 ## Known Issues and Limitations
 
 * Always assumes EUR as base currency
-* Doesn’t show currencies that Kraken cannot directly exchange to EUR (e.g. Dogecoin)
