@@ -166,7 +166,7 @@ function applyFillerWorkaround(content)
   local fixVersion = '2.3.4'
   if versionCompare(MM.productVersion, fixVersion) == -1 then
     print("Adding filler to work around bug in product versions earlier than " .. fixVersion)
-    return '{"filler":"' .. string.rep('x', 1024) .. '",' .. string.sub(content, 2)
+    return '{"filler":"' .. string.rep('x', 2048) .. '",' .. string.sub(content, 2)
   end
   return content
 end
