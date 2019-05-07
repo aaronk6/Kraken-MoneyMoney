@@ -109,14 +109,15 @@ function RefreshAccount (account, since)
       if targetCurrency == bitcoin then
         price = price * prices[getPairInfo(bitcoin)]["b"][1]
       end
-
-      s[#s+1] = {
-        name = name,
-        market = market,
-        currency = nil,
-        quantity = value,
-        price = price
-      }
+      if tonumber(value) > 0 then
+        s[#s+1] = {
+          name = name,
+          market = market,
+          currency = nil,
+          quantity = value,
+          price = price
+        }
+      end
     end
   end
 
