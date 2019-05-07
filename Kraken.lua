@@ -42,30 +42,42 @@ local accountName = "Balances"
 local accountNumber = "Main"
 local balances
 
--- These cannot be retrieved via the API, therefore hardcoding them (could use
--- web scraping instead) Source: https://www.kraken.com/help/fees
+-- The currency names cannot be retrieved via the API, therefore hardcoding them (could use
+-- web scraping instead).
+
+-- Source: https://support.kraken.com/hc/en-us/articles/201893658-Currency-pairs-available-for-trading-on-Kraken
+-- Retrieved on: May 7, 2019
+
 local currencyNames = {
+  
+  -- crypto
+  ADA = "Cardano",
+  ATOM = "Cosmos",
   BCH = "Bitcoin Cash",
   DASH = "Dash",
+  EOS = "EOS",
   GNO = "Gnosis",
-  USDT = "Tether USD",
-  XETC = "Ether Classic",
-  XETH = "Ether",
-  XICN = "Iconomi",
+  QTUM = "QTUM",
+  USDT = "Tether (Omni Layer)",
+  XETC = "Ethereum Classic",
+  XETH = "Ethereum",
   XLTC = "Litecoin",
-  XMLN = "Melon",
+  XMLN = "Watermelon",
   XREP = "Augur",
+  XTZ = "Tezos",
   XXBT = "Bitcoin",
   XXDG = "Dogecoin",
-  XXLM = "Lumen",
+  XXLM = "Stellar Lumens",
   XXMR = "Monero",
   XXRP = "Ripple",
   XZEC = "Zcash",
-  ZEUR = "Euro",
-  ZUSD = "US Dollar",
+
+  -- fiat
   ZCAD = "Canadian Dollar",
+  ZEUR = "Euro",
   ZGBP = "Great British Pound",
-  ZJPY = "Japanese Yen"
+  ZJPY = "Japanese Yen",
+  ZUSD = "US Dollar"
 }
 
 function SupportsBank (protocol, bankCode)
