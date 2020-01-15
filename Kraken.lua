@@ -36,6 +36,7 @@ local apiSecret
 local apiVersion = 0
 local currency = "EUR" -- fixme: Don't hardcode
 local currencyName = "ZEUR" -- fixme: Don't hardcode
+local stakeSuffix = '.S'
 local bitcoin = 'XXBT'
 local market = "Kraken"
 local accountName = "Balances"
@@ -112,7 +113,7 @@ function RefreshAccount (account, since)
 
   for key, value in pairs(balances) do
     pair, targetCurrency = getPairInfo(key)
-    name = currencyNames[key] ~= nil and currencyNames[key] or key
+    name = resolveCurrencyName(key)
     if prices[pair] ~= nil or key == currencyName then
       price = prices[pair] ~= nil and prices[pair]["b"][1] or 1
 
@@ -137,6 +138,21 @@ function RefreshAccount (account, since)
 end
 
 function EndSession ()
+end
+
+function resolveCurrencyName(key)
+
+  local keyWithoutSuffix = removeSuffix(key, stakeSuffix)
+  local isStaked = key ~= keyWithoutSuffix
+
+  if isStaked and currencyNames[keyWithoutSuffix] ~=nil then
+    return currencyNames[keyWithoutSuffix] ..  ' (staked)'
+  elseif currencyNames[key] then
+    return currencyNames[key]
+  end
+
+  -- If we cannot resolve the key to a name, return the unmodified key.
+  return key
 end
 
 function queryPrivate(method, request)
@@ -209,6 +225,10 @@ function buildPairs(balances, assetPairs)
 end
 
 function getPairInfo(base)
+
+  -- support for staked coins (cut off stakeSuffix so that the currency can be found in asset pairs)
+  base = removeSuffix(base, stakeSuffix)
+
   local opt1 = base .. currency
   local opt2 = base .. currencyName
   local opt3 = base .. bitcoin
@@ -220,6 +240,13 @@ function getPairInfo(base)
   end
 
   return nil
+end
+
+function removeSuffix(str, suffix)
+  if ends_with(str, suffix) then
+    return str:sub(1, -#suffix-1)
+  end
+  return str
 end
 
 function versionCompare(version1, version2)
@@ -258,4 +285,9 @@ function split(str, delimiter)
     end
   end
   return t
+end
+
+function ends_with(str, ending)
+  -- from http://lua-users.org/wiki/StringRecipes
+  return ending == "" or str:sub(-#ending) == ending
 end
