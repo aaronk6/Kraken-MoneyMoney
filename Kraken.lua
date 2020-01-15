@@ -4,7 +4,7 @@
 -- Username: Kraken API Key
 -- Password: Kraken API Secret
 --
--- Copyright (c) 2019 aaronk6
+-- Copyright (c) 2020 aaronk6
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
 -- of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@
 -- SOFTWARE.
 
 WebBanking{
-  version = 1.05,
+  version = 1.06,
   url = "https://api.kraken.com",
   description = "Fetch balances from Kraken API and list them as securities",
   services= { "Kraken Account" },
