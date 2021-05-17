@@ -91,7 +91,7 @@ function InitializeSession (protocol, bankCode, username, username2, password, u
 
   balances = queryPrivate("Balance")
   assetPairs = queryPublic("AssetPairs")
-  prices = queryPublic("Ticker", { pair = buildPairs(balances, assetPairs) })
+  prices = queryPublic("Ticker", { pair = table.concat(buildPairs(balances, assetPairs), ',') })
 end
 
 function ListAccounts (knownAccounts)
@@ -215,13 +215,24 @@ function httpBuildQuery(params)
 end
 
 function buildPairs(balances, assetPairs)
-  local str = ''
+  local pair = ''
+  local defaultPair = bitcoin .. currencyName
+  local t = {}
+
+  -- Always add default pair (i.e. XXBTZEUR)
+  -- If we don't add it, fiat price calculation for currencies that don't have a fiat
+  -- trading pair (such as Dogecoin) will fail in accounts that don't own Bitcoin.
+  table.insert(t, defaultPair)
+
   for key, value in pairs(assetPairs) do
     if balances[value["base"]] ~= nil or balances[value["quote"]] ~= nil then
-      str = str .. key .. ","
+      if (key ~= defaultPair) then
+        table.insert(t, key)
     end
   end
-  return str.sub(str, 1, -2)
+  end
+
+  return t
 end
 
 function getPairInfo(base)
