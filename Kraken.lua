@@ -4,7 +4,7 @@
 -- Username: Kraken API Key
 -- Password: Kraken API Secret
 --
--- Copyright (c) 2020 aaronk6
+-- Copyright (c) 2021 aaronk6
 --
 -- Permission is hereby granted, free of charge, to any person obtaining a copy
 -- of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@
 -- SOFTWARE.
 
 WebBanking{
-  version = 1.06,
+  version = 1.07,
   url = "https://api.kraken.com",
   description = "Fetch balances from Kraken API and list them as securities",
   services= { "Kraken Account" },
@@ -228,8 +228,8 @@ function buildPairs(balances, assetPairs)
     if balances[value["base"]] ~= nil or balances[value["quote"]] ~= nil then
       if (key ~= defaultPair) then
         table.insert(t, key)
+      end
     end
-  end
   end
 
   return t
