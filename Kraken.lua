@@ -38,6 +38,7 @@ local currency = "EUR" -- fixme: Don't hardcode
 local currencyName = "ZEUR" -- fixme: Don't hardcode
 local stakeSuffix = '.S'
 local bitcoin = 'XXBT'
+local ethereum = 'XETH'
 local market = "Kraken"
 local accountName = "Balances"
 local accountNumber = "Main"
@@ -53,13 +54,28 @@ local currencyNames = {
   
   -- crypto
   ADA = "Cardano",
+  APE = "ApeCoin",
   ATOM = "Cosmos",
+  AVAX = "Avalanche",
   BCH = "Bitcoin Cash",
+  DAI = "Dai",
   DASH = "Dash",
+  DOT = "Polkadot",
   EOS = "EOS",
+  ETH2 = "Ethereum 2.0",
   GNO = "Gnosis",
+  LINK = "Chainlink",
+  LUNA = "Terra Classic",
+  LUNA2 = "Terra 2.0",
+  MATIC = "Polygon",
   QTUM = "QTUM",
+  SHIB = "Shiba Inu",
+  SOL = "Solana",
+  TRX = "Tron",
+  UNI = "Uniswap",
+  USDC = "USD Coin",
   USDT = "Tether (Omni Layer)",
+  WBTC = "Wrapped Bitcoin",
   XETC = "Ethereum Classic",
   XETH = "Ethereum",
   XLTC = "Litecoin",
@@ -118,9 +134,11 @@ function RefreshAccount (account, since)
       price = prices[pair] ~= nil and prices[pair]["b"][1] or 1
 
       -- If this currency pair cannot be changed to fiat directly, we get the price
-      -- in Bitcoin here and need to convert it to the correct fiat amount.
+      -- in Bitcoin or Ethereum here and need to convert it to the correct fiat amount.
       if targetCurrency == bitcoin then
         price = price * prices[getPairInfo(bitcoin)]["b"][1]
+      elseif targetCurrency == ethereum then
+        price = price * prices[getPairInfo(ethereum)]["b"][1]
       end
       if tonumber(value) > 0 then
         s[#s+1] = {
@@ -243,11 +261,14 @@ function getPairInfo(base)
   local opt1 = base .. currency
   local opt2 = base .. currencyName
   local opt3 = base .. bitcoin
+  local opt4 = base .. ".SETH"
 
   if assetPairs[opt1] ~= nil then return opt1, currency
   elseif assetPairs[opt2] ~= nil then return opt2, currencyName
   -- opt3: currency cannot be changed to fiat directly, only to Bitcoin (applies to Lumen, Dogecoin)
-  elseif assetPairs[opt3] then return opt3, bitcoin
+  elseif assetPairs[opt3] ~= nil then return opt3, bitcoin
+  -- opt4: currency cannot be changed to fiat or Bitcoin, only to Ethereum (applies to staked Ethereum 2.0)
+  elseif assetPairs[opt4] then return opt4, ethereum
   end
 
   return nil
