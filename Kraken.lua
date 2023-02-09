@@ -54,10 +54,11 @@ local balances
 -- Further currency names added on July 19, 2022, but the list is still incomplete.
 
 local currencyNames = {
-  
+
   -- crypto
   ADA = "Cardano",
   APE = "ApeCoin",
+  ASTR = "Astar",
   ATOM = "Cosmos",
   AVAX = "Avalanche",
   BCH = "Bitcoin Cash",
@@ -66,11 +67,14 @@ local currencyNames = {
   DOT = "Polkadot",
   EOS = "EOS",
   ETH2 = "Ethereum 2.0",
+  ETHW = "Ethereum (PoW)", 
+  FTM = "Fantom",
   GNO = "Gnosis",
   LINK = "Chainlink",
   LUNA = "Terra Classic",
   LUNA2 = "Terra 2.0",
   MATIC = "Polygon",
+  MINA = "Mina",
   QTUM = "QTUM",
   SHIB = "Shiba Inu",
   SOL = "Solana",
