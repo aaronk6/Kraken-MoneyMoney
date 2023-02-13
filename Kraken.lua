@@ -51,7 +51,7 @@ local balances
 -- Source: https://support.kraken.com/hc/en-us/articles/201893658-Currency-pairs-available-for-trading-on-Kraken
 -- Retrieved on: May 7, 2019
 
--- Further currency names added on July 19, 2022, but the list is still incomplete.
+-- Further currency names added on July 19, 2022 and on February 9, 2023, but the list is still incomplete.
 
 local currencyNames = {
 
