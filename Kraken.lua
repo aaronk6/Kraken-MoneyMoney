@@ -37,6 +37,7 @@ local apiVersion = 0
 local currency = "EUR" -- fixme: Don't hardcode
 local currencyName = "ZEUR" -- fixme: Don't hardcode
 local stakeSuffix = '.S'
+local optInRewardsSuffix = '.M'
 local bitcoin = 'XXBT'
 local ethereum = 'XETH'
 local market = "Kraken"
@@ -53,10 +54,11 @@ local balances
 -- Further currency names added on July 19, 2022, but the list is still incomplete.
 
 local currencyNames = {
-  
+
   -- crypto
   ADA = "Cardano",
   APE = "ApeCoin",
+  ASTR = "Astar",
   ATOM = "Cosmos",
   AVAX = "Avalanche",
   BCH = "Bitcoin Cash",
@@ -65,11 +67,14 @@ local currencyNames = {
   DOT = "Polkadot",
   EOS = "EOS",
   ETH2 = "Ethereum 2.0",
+  ETHW = "Ethereum (PoW)", 
+  FTM = "Fantom",
   GNO = "Gnosis",
   LINK = "Chainlink",
   LUNA = "Terra Classic",
   LUNA2 = "Terra 2.0",
   MATIC = "Polygon",
+  MINA = "Mina",
   QTUM = "QTUM",
   SHIB = "Shiba Inu",
   SOL = "Solana",
@@ -85,6 +90,7 @@ local currencyNames = {
   XREP = "Augur",
   XTZ = "Tezos",
   XXBT = "Bitcoin",
+  XBT = "Bitcoin",
   XXDG = "Dogecoin",
   XXLM = "Stellar Lumens",
   XXMR = "Monero",
@@ -162,7 +168,7 @@ end
 
 function resolveCurrencyName(key)
 
-  local keyWithoutSuffix = removeSuffix(key, stakeSuffix)
+  local keyWithoutSuffix = removeSuffix(removeSuffix(key, stakeSuffix), optInRewardsSuffix)
   local isStaked = key ~= keyWithoutSuffix
 
   if isStaked and currencyNames[keyWithoutSuffix] ~=nil then
@@ -259,6 +265,14 @@ function getPairInfo(base)
 
   -- support for staked coins (cut off stakeSuffix so that the currency can be found in asset pairs)
   base = removeSuffix(base, stakeSuffix)
+
+  -- support for Opt-In Rewards, e.g. Bitcoin "staking" (XBT.M)
+  base = removeSuffix(base, optInRewardsSuffix)
+
+  -- rename "staked" XBT to XXBT so it can be found in the asset pair list
+  if base == 'XBT' then
+    base = 'XXBT'
+  end
 
   local opt1 = base .. currency
   local opt2 = base .. currencyName
