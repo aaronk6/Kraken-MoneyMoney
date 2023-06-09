@@ -25,7 +25,7 @@
 -- SOFTWARE.
 
 WebBanking{
-  version = 1.09,
+  version = 1.10,
   url = "https://api.kraken.com",
   description = "Fetch balances from Kraken API and list them as securities",
   services= { "Kraken Account" },
@@ -65,6 +65,7 @@ local currencyNames = {
   DAI = "Dai",
   DASH = "Dash",
   DOT = "Polkadot",
+  DOT28 = "Polkadot Fixed 28"
   EOS = "EOS",
   ETH2 = "Ethereum 2.0",
   ETHW = "Ethereum (PoW)", 
@@ -262,6 +263,7 @@ function buildPairs(balances, assetPairs)
 end
 
 function getPairInfo(base)
+
 
   -- support for staked coins (cut off stakeSuffix so that the currency can be found in asset pairs)
   base = removeSuffix(base, stakeSuffix)
