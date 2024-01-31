@@ -205,16 +205,17 @@ function queryPrivate(method, request)
 end
 
 function queryPublic(method, request)
-  if request == nil then
-    request = {}
-  end
-
   local path = string.format("/%s/public/%s", apiVersion, method)
-  local postData = httpBuildQuery(request)
+  local queryParams = ""
 
-  content = connection:request("POST", url .. path, postData)
-  json = JSON(applyFillerWorkaround(content))
-
+  if request ~= nil and next(request) ~= nil then
+    queryParams = "?" .. httpBuildQuery(request)
+  end
+  
+  local urlWithParams = url .. path .. queryParams
+  local content = connection:request("GET", urlWithParams, "")
+  local json = JSON(applyFillerWorkaround(content))
+  
   return json:dictionary()["result"]
 end
 
