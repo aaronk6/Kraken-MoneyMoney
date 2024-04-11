@@ -277,17 +277,19 @@ function getPairInfo(base)
     base = 'XXBT'
   end
 
+  -- rename ETH2 to XETH so it can be found in the asset pair list
+  if base == 'ETH2' then
+    base = 'XETH'
+  end
+
   local opt1 = base .. currency
   local opt2 = base .. currencyName
   local opt3 = base .. bitcoin
-  local opt4 = base .. ".SETH"
 
   if assetPairs[opt1] ~= nil then return opt1, currency
   elseif assetPairs[opt2] ~= nil then return opt2, currencyName
   -- opt3: currency cannot be changed to fiat directly, only to Bitcoin (applies to Lumen, Dogecoin)
   elseif assetPairs[opt3] ~= nil then return opt3, bitcoin
-  -- opt4: currency cannot be changed to fiat or Bitcoin, only to Ethereum (applies to staked Ethereum 2.0)
-  elseif assetPairs[opt4] then return opt4, ethereum
   end
 
   return nil
