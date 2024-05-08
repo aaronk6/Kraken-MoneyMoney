@@ -51,38 +51,61 @@ local balances
 -- Source: https://support.kraken.com/hc/en-us/articles/201893658-Currency-pairs-available-for-trading-on-Kraken
 -- Retrieved on: May 7, 2019
 
--- Further currency names added on July 19, 2022 and on February 9, 2023, but the list is still incomplete.
+-- Further currency names added on July 19, 2022, February 9, 2023, and April 11, 2024, but the list is still incomplete.
 
 local currencyNames = {
 
   -- crypto
+  AAVE = "Aave",
   ADA = "Cardano",
+  ALGO = "Algorand",
   APE = "ApeCoin",
+  ARB = "Arbitrum",
   ASTR = "Astar",
   ATOM = "Cosmos",
   AVAX = "Avalanche",
   BCH = "Bitcoin Cash",
+  COMP = "Compound",
   DAI = "Dai",
   DASH = "Dash",
   DOT = "Polkadot",
   DOT28 = "Polkadot Fixed 28",
+  DYDX = "dYdX",
+  DYM = "Dymension",
   EOS = "EOS",
   ETH2 = "Ethereum 2.0",
   ETHW = "Ethereum (PoW)",
+  FET = "Fetch.ai",
+  FIL = "Filecoin",
   FTM = "Fantom",
+  GALA = "Gala Games",
   GNO = "Gnosis",
+  INJ = "Injective",
   LINK = "Chainlink",
   LUNA = "Terra Classic",
   LUNA2 = "Terra 2.0",
   MATIC = "Polygon",
   MINA = "Mina",
+  OCEAN = "OCEAN Token",
+  PEPE = "Pepe",
+  PERP = "Perpetual Protocol",
   QTUM = "QTUM",
+  RLC = "iExec RLC",
+  RUNE = "THORChain",
+  SEI = "Sei",
   SHIB = "Shiba Inu",
   SOL = "Solana",
+  SPELL = "Spell Token",
+  STRK = "Starknet Token",
+  STX = "Stacks",
+  SUI = "Sui",
+  TIA = "Celestia",
   TRX = "Tron",
   UNI = "Uniswap",
   USDC = "USD Coin",
   USDT = "Tether (Omni Layer)",
+  WIF = "dogwifhat",
+  WOO = "Woo Network",
   WBTC = "Wrapped Bitcoin",
   XETC = "Ethereum Classic",
   XETH = "Ethereum",
@@ -277,17 +300,19 @@ function getPairInfo(base)
     base = 'XXBT'
   end
 
+  -- rename ETH2 to XETH so it can be found in the asset pair list
+  if base == 'ETH2' then
+    base = 'XETH'
+  end
+
   local opt1 = base .. currency
   local opt2 = base .. currencyName
   local opt3 = base .. bitcoin
-  local opt4 = base .. ".SETH"
 
   if assetPairs[opt1] ~= nil then return opt1, currency
   elseif assetPairs[opt2] ~= nil then return opt2, currencyName
   -- opt3: currency cannot be changed to fiat directly, only to Bitcoin (applies to Lumen, Dogecoin)
   elseif assetPairs[opt3] ~= nil then return opt3, bitcoin
-  -- opt4: currency cannot be changed to fiat or Bitcoin, only to Ethereum (applies to staked Ethereum 2.0)
-  elseif assetPairs[opt4] then return opt4, ethereum
   end
 
   return nil
