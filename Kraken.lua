@@ -60,6 +60,7 @@ local currencyNames = {
   ADA = "Cardano",
   ALGO = "Algorand",
   APE = "ApeCoin",
+  API3 = "API3",
   ARB = "Arbitrum",
   ASTR = "Astar",
   ATOM = "Cosmos",
@@ -80,6 +81,7 @@ local currencyNames = {
   FTM = "Fantom",
   GALA = "Gala Games",
   GNO = "Gnosis",
+  GRT = "The Graph",
   INJ = "Injective",
   LINK = "Chainlink",
   LUNA = "Terra Classic",
@@ -288,6 +290,8 @@ end
 
 function getPairInfo(base)
 
+  -- remove two-digit numbers to support assets with more than one staking mode, e.g. DOT28.S
+  base = remove_two_digit_numbers(base)
 
   -- support for staked coins (cut off stakeSuffix so that the currency can be found in asset pairs)
   base = removeSuffix(base, stakeSuffix)
@@ -366,4 +370,10 @@ end
 function ends_with(str, ending)
   -- from http://lua-users.org/wiki/StringRecipes
   return ending == "" or str:sub(-#ending) == ending
+end
+
+function remove_two_digit_numbers(text)
+  -- remove two-digit numbers that are followed by .S
+  local cleaned_text = string.gsub(text, "(%d%d)(%.S)", "%2")
+  return cleaned_text
 end
