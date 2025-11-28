@@ -136,10 +136,18 @@ end
 function InitializeSession (protocol, bankCode, username, username2, password, username3)
   apiKey = username
   apiSecret = password
+  prices = {}
 
   balances = queryPrivate("Balance")
   assetPairs = queryPublic("AssetPairs")
-  prices = queryPublic("Ticker", { pair = table.concat(buildPairs(balances, assetPairs), ',') })
+  local pairList = buildPairs(balances, assetPairs)
+  local chunks = chunk(pairList, 50)
+  for i, pairsChunk in ipairs(chunks) do
+    local result = queryPublic("Ticker", { pair = table.concat(pairsChunk, ',') })
+    for k,v in pairs(result) do
+      prices[k] = v
+    end
+  end
 end
 
 function ListAccounts (knownAccounts)
@@ -263,6 +271,18 @@ function httpBuildQuery(params)
     str = str .. key .. "=" .. value .. "&"
   end
   return str.sub(str, 1, -2)
+end
+
+function chunk(t, size)
+  local chunks = {}
+  for i = 1, #t, size do
+    local chunk = {}
+    for j = i, math.min(i + size - 1, #t) do
+      table.insert(chunk, t[j])
+    end
+    table.insert(chunks, chunk)
+  end
+  return chunks
 end
 
 function buildPairs(balances, assetPairs)
